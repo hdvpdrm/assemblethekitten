@@ -1,6 +1,17 @@
 #include"start_menu.h"
 
 
+void process_start_menu(int* outer_state)
+{
+  if(IsKeyPressed(KEY_Q))
+    {
+      *outer_state = 0;
+    }
+  if(IsKeyPressed(KEY_Z))
+    {
+      *outer_state = 1;
+    }
+}
 void draw_start_menu(void)
 {
   DrawText("WORLDOFFUCKINGSORROW",100,100,32,RAYWHITE);
