@@ -1,7 +1,8 @@
 #ifndef START_MENU_H
 #define START_MENU_H
 #include"raylib.h"
-#include"whoami.h"
+#include<stddef.h>
+#include<stdlib.h>
 
 static short switch_state = 0;
 
