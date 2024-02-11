@@ -2,7 +2,6 @@
 #include<stdio.h>
 
 
-
 static int compute_kitten()
 {
   int S = 0;
@@ -37,6 +36,7 @@ void draw_game()
   draw_map();
   draw_design_stuff();
   draw_stat();
+  draw_robot();
 }
 void draw_stat()
 {
@@ -47,4 +47,16 @@ void draw_stat()
   
   DrawText("free space:",10,280,20,RAYWHITE);
   DrawText("map cut in:",20,320,20,RAYWHITE);
+}
+
+
+void init_game()
+{
+  SetRandomSeed(time(NULL));
+  init_map();
+  init_robot();
+}
+void process_game()
+{
+  move_robot();
 }
