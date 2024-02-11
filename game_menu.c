@@ -14,8 +14,8 @@ void draw_map()
   for(int y = 0; y<CELL_MAX;++y)
     for(int x = 0;x<CELL_MAX;++x)
       {
-	int x_pos = COMP_POS(x) + 120;
-	int y_pos = COMP_POS(y);
+	int x_pos = COMP_X_POS(x);
+	int y_pos = COMP_Y_POS(y);
         
 	DrawRectangle(x_pos,y_pos,CELL_SIZE,CELL_SIZE,BLUE);
       }
