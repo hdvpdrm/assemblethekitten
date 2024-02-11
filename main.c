@@ -46,6 +46,11 @@ void process(GameState* state)
     case Help:
       process_help_menu(&change);
       break;
+    case Game:
+      {
+	move_robot();
+      }
+      break;
     }
 
   if(change == 0)
@@ -72,7 +77,10 @@ void draw(GameState* state)
        draw_help_menu();
      break;
   case Game:
+    {
        draw_game();
+       draw_robot();
+    }
      break;
   }
 }
