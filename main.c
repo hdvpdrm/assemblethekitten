@@ -1,20 +1,27 @@
 #include"start_menu.h"
+#include"game_menu.h"
+#include"map.h"
+#include"robot.h"
 #include<stdio.h>
-
+#include<time.h>
 
 typedef enum GameState {Start, Help, Game, Death, Victory} GameState;
 
+void prepare_random();
 void draw(GameState* state);
 void process(GameState* state);
 int main(int argc, char** argv)
 {
-  InitWindow(640,480,"WORLDOFFUCKINGSORROW");
+  SetRandomSeed(time(NULL));
+  init_map();
+  init_robot();
+  
+  InitWindow(640,480,"ASSEMBLETHEKITTEN");
   ClearWindowState(FLAG_WINDOW_RESIZABLE);
   SetTargetFPS(10);
 
 
   GameState state = Start;
-  
   while(!WindowShouldClose())
     {
       process(&state);
@@ -36,6 +43,9 @@ void process(GameState* state)
     case Start:
       process_start_menu(&change);
     break;
+    case Help:
+      process_help_menu(&change);
+      break;
     }
 
   if(change == 0)
@@ -46,6 +56,10 @@ void process(GameState* state)
     {
       *state = Help;
     }
+  else if(change == -2)
+    {
+      *state = Start;
+    }
 }
 void draw(GameState* state)
 {
@@ -53,6 +67,12 @@ void draw(GameState* state)
   {
      case Start:
        draw_start_menu();
+     break;
+  case Help:
+       draw_help_menu();
+     break;
+  case Game:
+       draw_game();
      break;
   }
 }
