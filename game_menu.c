@@ -41,12 +41,23 @@ void draw_game()
 void draw_stat()
 {
   DrawText(" assembled:",15,240,20,RAYWHITE);
-  char buffer[3] = "0/7";
+  char buffer[4] = "0/7\0";
   buffer[0] = '0' + compute_kitten();
   DrawText(buffer,135,240,20,RAYWHITE);
   
   DrawText("free space:",10,280,20,RAYWHITE);
+
+  int free_space_amount = compute_free_space();
+  char fsa_buffer[8]; 
+  sprintf(fsa_buffer,"%d",free_space_amount);
+  strcat(fsa_buffer,"/36\0");
+
+  DrawText(fsa_buffer,130,280,20,RAYWHITE);
+  
   DrawText("map cut in:",20,320,20,RAYWHITE);
+  char map_cut_buffer[2] = "0\0";
+  map_cut_buffer[0] = '0' + turns_till_map_cut;
+  DrawText(map_cut_buffer,130,320,20,RAYWHITE);
 }
 
 
