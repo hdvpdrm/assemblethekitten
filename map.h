@@ -22,5 +22,7 @@ extern int compute_free_space();
 extern int compute_free_cells(Vector** cells, int* cells_number);
 extern int generate_random_objects(int amount);
 
+extern short is_free(int x, int y);
+
 extern void draw_objects();
 #endif

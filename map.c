@@ -104,3 +104,13 @@ void draw_objects()
       }
 
 }
+short is_free(int x, int y)
+{
+  //check boundaries
+  if(x < 0  || y < 0) return 0;
+  if(x > 5  || y > 5) return 0;
+
+  if(map[y][x] == 0) return 1;
+
+  return 0;
+}

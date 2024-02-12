@@ -33,14 +33,18 @@ void draw_robot()
 void move_robot()
 {
   if(MOVE_DOWN && robot_pos.y + 1 < 6)
-    robot_pos.y += 1;
+    if(is_free(robot_pos.x,robot_pos.y+1) == 1)
+      robot_pos.y += 1;
   
   if(MOVE_UP && robot_pos.y - 1 > -1)
-    robot_pos.y -= 1;
+    if(is_free(robot_pos.x,robot_pos.y-1) == 1)
+      robot_pos.y -= 1;
 
   if(MOVE_LEFT && robot_pos.x -1 > left_border-1)
-    robot_pos.x -= 1;
+    if(is_free(robot_pos.x-1,robot_pos.y) == 1)
+      robot_pos.x -= 1;
 
   if(MOVE_RIGHT && robot_pos.x + 1 < right_border)
-    robot_pos.x += 1;
+    if(is_free(robot_pos.x+1,robot_pos.y) == 1)
+      robot_pos.x += 1;
 }
