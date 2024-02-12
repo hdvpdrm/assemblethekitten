@@ -4,7 +4,6 @@
 
 typedef enum GameState {Start, Help, Game, Death, Victory} GameState;
 
-void prepare_random();
 void draw(GameState* state);
 void process(GameState* state);
 int main(int argc, char** argv)
