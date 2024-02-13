@@ -8,13 +8,11 @@ void draw(GameState* state);
 void process(GameState* state);
 int main(int argc, char** argv)
 {
-  init_game();
-  
   InitWindow(640,480,"ASSEMBLETHEKITTEN");
   ClearWindowState(FLAG_WINDOW_RESIZABLE);
   SetTargetFPS(10);
 
-
+  init_game();
   GameState state = Start;
   while(!WindowShouldClose())
     {
