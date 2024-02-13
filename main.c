@@ -2,6 +2,7 @@
 #include"game_menu.h"
 #include<stdio.h>
 
+//all possible game states. Each state is associated with its own data and events
 typedef enum GameState {Start, Help, Game, Death, Victory} GameState;
 
 void draw(GameState* state);
@@ -9,13 +10,16 @@ void process(GameState* state);
 int main(int argc, char** argv)
 {
   InitWindow(640,480,"ASSEMBLETHEKITTEN");
-  ClearWindowState(FLAG_WINDOW_RESIZABLE);
-  SetTargetFPS(10);
+  ClearWindowState(FLAG_WINDOW_RESIZABLE); //makes window unresizable(but it doesn't work on i3 DE)
+  SetTargetFPS(10); //this is turn-based game, so it doesn't require too many FPS
 
   init_game();
-  GameState state = Start;
+  
+  GameState state = Start;//initial state
   while(!WindowShouldClose())
     {
+      //game cycle is simple: DoSomething.DrawSomething.Repeat.
+      
       process(&state);
 
       BeginDrawing();
