@@ -16,8 +16,10 @@ void draw_map()
 	int x_pos = COMP_X_POS(x);
 	int y_pos = COMP_Y_POS(y);
         
-	DrawRectangle(x_pos,y_pos,CELL_SIZE,CELL_SIZE,BLUE);
+	DrawRectangle(x_pos,y_pos,CELL_SIZE,CELL_SIZE,RAYWHITE);
       }
+
+  draw_objects();
 }
 void draw_design_stuff()
 {
@@ -65,6 +67,7 @@ void init_game()
 {
   SetRandomSeed(time(NULL));
   init_map();
+  generate_random_objects(turns_till_map_cut+1);
   init_robot();
 }
 void process_game()

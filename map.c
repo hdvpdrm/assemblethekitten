@@ -75,7 +75,7 @@ int generate_random_objects(int amount)
 	  if(index < 0) index*=-1;
 	  int x = free_cells[index].x;
 	  int y = free_cells[index].y;
-
+	  printf("%d %d\n",x,y);
 	  int rnd_ch_pos = GetRandomValue(0,CHARS_LEN-1);
 	  map[y][x] = (int)_CHARS[rnd_ch_pos];
 	}
@@ -92,7 +92,7 @@ void draw_objects()
   for(int y = 0; y<CELL_MAX;++y)
     for(int x = 0;x<CELL_MAX;++x)
       {
-	int x_pos = COMP_X_POS(x)+2;
+	int x_pos = COMP_X_POS(x)+3;
 	int y_pos = COMP_Y_POS(y)-1;
        
 	if(map[y][x] > 0)
@@ -111,6 +111,7 @@ short is_free(int x, int y)
   if(x > 5  || y > 5) return 0;
 
   if(map[y][x] == 0) return 1;
-
+  else if(map[y][x] < 0) return 0;
+  else if(map[y][x] > 0) return map[y][x];
   return 0;
 }
