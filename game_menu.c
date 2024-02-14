@@ -39,6 +39,26 @@ void draw_game()
   draw_design_stuff();
   draw_stat();
   draw_robot();
+
+  if(choose == 1)
+    {
+      draw_option();
+    }
+}
+void draw_option()
+{
+  DrawText("You see some object",300,40,20,RAYWHITE);
+
+  if(option_to_choose == 0)
+    {
+      DrawRectangle(295,70,75,20,RAYWHITE);
+    }
+  else
+    {
+      DrawRectangle(415,70,105,20,RAYWHITE);
+    }
+  DrawText("Kitten!",300,70,20,MAGENTA);
+  DrawText("No kitten.",420,70,20,MAGENTA);
 }
 void draw_stat()
 {
@@ -70,7 +90,30 @@ void init_game()
   generate_random_objects(turns_till_map_cut+1);
   init_robot();
 }
+void process_option_choosing()
+{
+  if(MOVE_LEFT || MOVE_RIGHT)
+    {
+      option_to_choose = option_to_choose == 0?1:0;
+    }
+  if(IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_ENTER))
+    {
+      choose = 0;
+    }
+}
 void process_game()
 {
-  move_robot();
+  //if choose is 0, then robot can move, otherwise robot should deicide what is object(kitten or not)
+  if(choose == 0)
+    {
+      int result = move_robot();
+      if(result != 0)
+	{
+	  choose = 1;
+	}
+    }
+  else
+    {
+      process_option_choosing();
+    }
 }
