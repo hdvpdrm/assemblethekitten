@@ -22,29 +22,42 @@ void draw_robot()
 {
   int x = COMP_X_POS(robot_pos.x)+3;
   int y = COMP_Y_POS(robot_pos.y)-2;
-  DrawText("#",x,y,40,RAYWHITE);
+  DrawText("#",x,y,40,BLACK);
 }
 
 
-#define MOVE_DOWN (IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S))
-#define MOVE_UP   (IsKeyPressed(KEY_UP)   || IsKeyPressed(KEY_W))
-#define MOVE_LEFT (IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A))
-#define MOVE_RIGHT (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D))
-void move_robot()
+int move_robot()
 {
   if(MOVE_DOWN && robot_pos.y + 1 < 6)
-    if(is_free(robot_pos.x,robot_pos.y+1) == 1)
-      robot_pos.y += 1;
+    {
+      int cell_state = is_free(robot_pos.x,robot_pos.y+1); 
+      if(cell_state == 1)
+	robot_pos.y += 1;
+      else return cell_state;
+    }
   
   if(MOVE_UP && robot_pos.y - 1 > -1)
-    if(is_free(robot_pos.x,robot_pos.y-1) == 1)
-      robot_pos.y -= 1;
-
+    {
+      int cell_state = is_free(robot_pos.x,robot_pos.y-1);
+      if(cell_state == 1)
+	robot_pos.y -= 1;
+      else return cell_state;
+    }
+  
   if(MOVE_LEFT && robot_pos.x -1 > left_border-1)
-    if(is_free(robot_pos.x-1,robot_pos.y) == 1)
-      robot_pos.x -= 1;
-
+    {
+      int cell_state = is_free(robot_pos.x-1,robot_pos.y);
+      if(cell_state == 1)
+	robot_pos.x -= 1;
+      else return cell_state;
+    }
   if(MOVE_RIGHT && robot_pos.x + 1 < right_border)
-    if(is_free(robot_pos.x+1,robot_pos.y) == 1)
-      robot_pos.x += 1;
+    {
+      int cell_state = is_free(robot_pos.x+1,robot_pos.y);
+      if(cell_state == 1)
+	robot_pos.x += 1;
+      else return cell_state;
+    }
+
+  return 0;
 }
