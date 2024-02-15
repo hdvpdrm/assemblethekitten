@@ -1,1 +1,1 @@
-gcc -o wofs -std=c99 main.c start_menu.h start_menu.c game_menu.h game_menu.c map.c map.h vector.c vector.h robot.c robot.h MACRO.h -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
+gcc -o wofs -std=c99 main.c death_screen.h death_screen.c start_menu.h start_menu.c game_menu.h game_menu.c map.c map.h vector.c vector.h robot.c robot.h MACRO.h -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
