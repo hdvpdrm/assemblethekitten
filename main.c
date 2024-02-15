@@ -1,5 +1,6 @@
 #include"start_menu.h"
 #include"game_menu.h"
+#include"death_screen.h"
 #include<stdio.h>
 
 //all possible game states. Each state is associated with its own data and events
@@ -12,10 +13,10 @@ int main(int argc, char** argv)
   InitWindow(640,480,"ASSEMBLETHEKITTEN");
   ClearWindowState(FLAG_WINDOW_RESIZABLE); //makes window unresizable(but it doesn't work on i3 DE)
   SetTargetFPS(10); //this is turn-based game, so it doesn't require too many FPS
-
+  
   init_game();
   
-  GameState state = Start;//initial state
+  GameState state = Death;//initial state
   while(!WindowShouldClose())
     {
       //game cycle is simple: DoSomething.DrawSomething.Repeat.
@@ -43,7 +44,10 @@ void process(GameState* state)
       process_help_menu(&change);
       break;
     case Game:
-      process_game();
+      process_game(&change);
+      break;
+    case Death:
+      process_death_screen(&change);
       break;
     }
 
@@ -59,6 +63,14 @@ void process(GameState* state)
     {
       *state = Start;
     }
+  else if(change == 3)
+    {
+      *state = Death;
+    }
+  else if(change == 4)
+    {
+      *state = Victory;
+    }
 }
 void draw(GameState* state)
 {
@@ -73,5 +85,8 @@ void draw(GameState* state)
   case Game:
        draw_game();
      break;
+  case Death:
+       draw_death_screen();
+    break;
   }
 }
