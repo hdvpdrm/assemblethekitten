@@ -32,8 +32,8 @@ void draw_start_menu(void)
 
   if(switch_state == 0)
     {
-      DrawText("Play",270,250,24,MAGENTA);
-      DrawText("See help",250,300,24,RAYWHITE);
+      DrawText("Play",275,250,24,MAGENTA);
+      DrawText("See help",245,300,24,RAYWHITE);
     }
   else
     {
