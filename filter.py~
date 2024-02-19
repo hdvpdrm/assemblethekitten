@@ -1,3 +1,0 @@
-
-
-with open(".nki","r") as f:
