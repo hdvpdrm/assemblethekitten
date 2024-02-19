@@ -65,7 +65,6 @@ void process_victory_screen(int* state)
      IsKeyPressed(KEY_W)    ||
      IsKeyPressed(KEY_S))
      {
-       null_victory_screen();
        choose_o = choose_o == 0? 1: 0;
      }
     }
@@ -76,6 +75,7 @@ void process_victory_screen(int* state)
       if(choose_o == 1)exit(0);
       else
 	{
+	  null_victory_screen();
 	  *state = -2;
 	}
     }
