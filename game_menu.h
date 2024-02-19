@@ -3,6 +3,14 @@
 #include"robot.h"
 #include<string.h>
 #include<time.h>
+#include"nki.h"
+
+static char** nki = NULL;
+extern void load_nki();
+extern void free_nki();
+static char* get_random_nki();
+
+static char* nki_to_show = NULL;
 
 //head, tail, body
 static int elements[] = {0,0,0};

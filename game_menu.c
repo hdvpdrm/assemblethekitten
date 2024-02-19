@@ -2,7 +2,7 @@
 #include<stdio.h>
 
 
-static int compute_kitten()
+int compute_kitten()
 {
   int S = 0;
   for(int i = 0;i<3;++i) S+=elements[i];
@@ -35,7 +35,7 @@ void draw_game()
 }
 void draw_option()
 {
-  DrawText("You see some object",300,40,20,RAYWHITE);
+  DrawText(nki_to_show,420-(MeasureText(nki_to_show,20)/2),40,20,RAYWHITE);
 
   if(option_to_choose == 0)
     {
@@ -78,6 +78,30 @@ void init_game()
   init_robot();
   vector_init(&next_pos);
 }
+
+char* get_random_nki()
+{
+  int id = GetRandomValue(0,453);
+  return nki[id];
+}
+void load_nki()
+{
+  nki = read_nki_file();
+  if(nki == NULL)
+    {
+      printf("hm... something went wrong... no nki...\n");
+      exit(-1);
+    }
+}
+void free_nki()
+{
+  for(int i = 0;i<453;++i)
+    {
+      free(nki[i]);
+    }
+  free(nki);
+}
+
 void null_state()
 {
   prev_ttmp_state = 2;
@@ -134,6 +158,7 @@ void process_game(int* state)
     }
   if(compute_kitten() == 3)
     {
+      null_state();
       *state = 4; //victory
     }
   
@@ -143,6 +168,7 @@ void process_game(int* state)
       int result = move_robot(&next_pos);
       if(result != 0)
 	{
+	  nki_to_show = get_random_nki();
 	  choose = 1;
 	}
     }
@@ -160,14 +186,12 @@ void process_game(int* state)
 	      if(compute_free_space() == 0)
 		{
 		  *state = 3;
-		  printf("ggg");
 		  null_state();
 		  return;
 		}
 
 	      if(is_dead_cell(get_robot_pos()->x,get_robot_pos()->y) == 1)
 		{
-		  printf("vvv\n");
 		  move_from_dead_cell();
 		}
 		
