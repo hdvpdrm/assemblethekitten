@@ -1,0 +1,10 @@
+#ifndef VICTORY_SCREEN_H
+#define VICTORY_SCREEN_H
+#include"raylib.h"
+
+static int show_buttons = 0;
+static void draw_animation();
+
+extern void draw_victory_screen();
+
+#endif
