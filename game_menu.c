@@ -85,6 +85,10 @@ void null_state()
   for(int i = 0;i<3;++i)elements[i] = 0;
   left_border = 0;
   right_border = 6;
+  init_map();
+  generate_random_objects(turns_till_map_cut+1,get_robot_pos());
+  init_robot();
+  vector_init(&next_pos);
 }
 int process_option_choosing()
 {
@@ -156,13 +160,17 @@ void process_game(int* state)
 	      if(compute_free_space() == 0)
 		{
 		  *state = 3;
+		  printf("ggg");
 		  null_state();
 		  return;
 		}
 
-	      if(is_dead_cell(get_robot_pos()->x,get_robot_pos()->y))
-	      	move_from_dead_cell();
-
+	      if(is_dead_cell(get_robot_pos()->x,get_robot_pos()->y) == 1)
+		{
+		  printf("vvv\n");
+		  move_from_dead_cell();
+		}
+		
 	      ++prev_ttmp_state;
 	      turns_till_map_cut = prev_ttmp_state;
 	      generate_random_objects(turns_till_map_cut+1,get_robot_pos());
