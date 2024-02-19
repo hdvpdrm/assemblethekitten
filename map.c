@@ -22,9 +22,7 @@ int compute_free_space()
   return S;
 }
 int compute_free_cells(Vector** cells, int* cells_number,Vector* robot_pos)
-{
-  printf("robot pos %d %d\n",robot_pos->x,robot_pos->y);
-  
+{  
   //create initial array for cells
   *cells_number = 1;
   *cells = malloc(sizeof(Vector));
@@ -91,7 +89,6 @@ int generate_random_objects(int amount,Vector* robot_pos)
 	    {
 	      kitten_pos.x = x;
 	      kitten_pos.y = y;
-	      printf("kitten pos is: %d %d\n",x,y);
 	    }
 	}
       
@@ -159,7 +156,6 @@ void draw_map()
 }
 void cut_map()
 {
-  printf("fucked --- %d %d   ---\n",left_border,right_border);
   for(int y = 0;y<CELL_MAX;++y)
     {
       map[y][left_border] = -1;

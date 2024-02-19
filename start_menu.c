@@ -53,9 +53,9 @@ void draw_help_menu(void)
   DrawText("Your",45,130,24,RAYWHITE);
   DrawText("goal",110,130,24,MAGENTA);
   DrawText("is to find",170,130,24,RAYWHITE);
-  DrawText("7",290,130,24,MAGENTA);
+  DrawText("3",290,130,24,MAGENTA);
   DrawText("elements of kitten.",320,130,24,RAYWHITE);
-  DrawText("These are: head, tail, body and 4 legs.",45,160,24,RAYWHITE);
+  DrawText("These are: head, tail, body.",45,160,24,RAYWHITE);
   DrawText("But you",45,210,24,RAYWHITE);
   DrawText("don't have",150,210,24,MAGENTA);
   DrawText("much time!",290,210,24,RAYWHITE);

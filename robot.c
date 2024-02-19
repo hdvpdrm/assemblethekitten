@@ -83,12 +83,10 @@ void move_from_dead_cell()
 {
   if(is_free_to_move(robot_pos.x-1,robot_pos.y) == 1)
     {
-      printf("move left...\n");
       robot_pos.x-=1;
     }
   else if(is_free_to_move(robot_pos.y+1,robot_pos.y) == 1)
     {
-      printf("move right...\n");
       robot_pos.x+=1;
     }
 }

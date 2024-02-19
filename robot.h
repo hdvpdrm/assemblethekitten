@@ -13,5 +13,9 @@ extern void draw_robot();
 #define MOVE_UP   (IsKeyPressed(KEY_UP)   || IsKeyPressed(KEY_W))
 #define MOVE_LEFT (IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A))
 #define MOVE_RIGHT (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D))
-extern int move_robot();
+
+extern int move_robot(Vector* target_pos);
+extern Vector* get_robot_pos();
+
+extern void move_from_dead_cell();
 #endif
