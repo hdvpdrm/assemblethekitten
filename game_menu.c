@@ -5,22 +5,10 @@
 static int compute_kitten()
 {
   int S = 0;
-  for(int i = 0;i<4;++i) S+=elements[i];
+  for(int i = 0;i<3;++i) S+=elements[i];
   return S;
 }
-void draw_map()
-{
-  for(int y = 0; y<CELL_MAX;++y)
-    for(int x = 0;x<CELL_MAX;++x)
-      {
-	int x_pos = COMP_X_POS(x);
-	int y_pos = COMP_Y_POS(y);
-        
-	DrawRectangle(x_pos,y_pos,CELL_SIZE,CELL_SIZE,RAYWHITE);
-      }
 
-  draw_objects();
-}
 void draw_design_stuff()
 {
   DrawLine(OFFSET+50,0,OFFSET+50,480,RAYWHITE);
@@ -63,7 +51,7 @@ void draw_option()
 void draw_stat()
 {
   DrawText(" assembled:",15,240,20,RAYWHITE);
-  char buffer[4] = "0/7\0";
+  char buffer[4] = "0/3\0";
   buffer[0] = '0' + compute_kitten();
   DrawText(buffer,135,240,20,RAYWHITE);
   
@@ -87,10 +75,19 @@ void init_game()
 {
   SetRandomSeed(time(NULL));
   init_map();
-  generate_random_objects(turns_till_map_cut+1);
+  generate_random_objects(turns_till_map_cut+1,get_robot_pos());
   init_robot();
+  vector_init(&next_pos);
 }
-void process_option_choosing()
+void null_state()
+{
+  prev_ttmp_state = 2;
+  turns_till_map_cut = 2;
+  for(int i = 0;i<3;++i)elements[i] = 0;
+  left_border = 0;
+  right_border = 6;
+}
+int process_option_choosing()
 {
   if(MOVE_LEFT || MOVE_RIGHT)
     {
@@ -99,14 +96,48 @@ void process_option_choosing()
   if(IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_ENTER))
     {
       choose = 0;
+      return 1;
+    }
+
+  return 0;
+}
+void process_object_interaction()
+{
+  bool found_kitten = is_kitten(next_pos.x,next_pos.y) == 1 && option_to_choose == 0;
+  bool no_kitten = is_kitten(next_pos.x,next_pos.y) == 0 && option_to_choose == 0;
+  bool kitten_mistake = is_kitten(next_pos.x,next_pos.y) == 1 && option_to_choose == 1;
+  if(found_kitten)
+    {
+      int id = compute_kitten();
+      if(id == 3)--id;
+      elements[id] = 1;
+
+      generate_random_objects(turns_till_map_cut+1,get_robot_pos());
+    }
+ else if(no_kitten)
+    {
+      --turns_till_map_cut;
+    }
+ else if(kitten_mistake)
+    {
+       turns_till_map_cut = 0;
     }
 }
-void process_game()
+void process_game(int* state)
 {
+  if(compute_free_space() == 0)
+    {
+      *state = 3; //death
+    }
+  if(compute_kitten() == 3)
+    {
+      *state = 4; //victory
+    }
+  
   //if choose is 0, then robot can move, otherwise robot should deicide what is object(kitten or not)
   if(choose == 0)
     {
-      int result = move_robot();
+      int result = move_robot(&next_pos);
       if(result != 0)
 	{
 	  choose = 1;
@@ -114,6 +145,28 @@ void process_game()
     }
   else
     {
-      process_option_choosing();
+      if(process_option_choosing() == 1)
+	{
+	  make_cell_dead(next_pos.x,next_pos.y);
+	  process_object_interaction();
+	}
+
+      if(turns_till_map_cut == 0)
+	    {
+	      cut_map();
+	      if(compute_free_space() == 0)
+		{
+		  *state = 3;
+		  null_state();
+		  return;
+		}
+
+	      if(is_dead_cell(get_robot_pos()->x,get_robot_pos()->y))
+	      	move_from_dead_cell();
+
+	      ++prev_ttmp_state;
+	      turns_till_map_cut = prev_ttmp_state;
+	      generate_random_objects(turns_till_map_cut+1,get_robot_pos());
+	    }
     }
 }
