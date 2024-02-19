@@ -18,8 +18,10 @@ int compute_free_space()
       
   return S;
 }
-int compute_free_cells(Vector** cells, int* cells_number)
+int compute_free_cells(Vector** cells, int* cells_number,Vector* robot_pos)
 {
+  printf("robot pos %d %d\n",robot_pos->x,robot_pos->y);
+  
   //create initial array for cells
   *cells_number = 1;
   *cells = malloc(sizeof(Vector));
@@ -33,7 +35,7 @@ int compute_free_cells(Vector** cells, int* cells_number)
     for(int x = 0;x<6;++x)
       {
 	//if it's under 0, then it's blocked,otherwise it's object
-	if(map[y][x] == 0)
+	if(map[y][x] == 0 && x != robot_pos->x && y != robot_pos->y)
 	  {
 	    //if first element isn't used, then fill it
 	    if( (*cells)[0].x == -1)
@@ -60,28 +62,39 @@ int compute_free_cells(Vector** cells, int* cells_number)
   
   return 0;
 }
-int generate_random_objects(int amount)
+int generate_random_objects(int amount,Vector* robot_pos)
 {
   Vector* free_cells = NULL;
   int free_cells_size = 0;
-  if(compute_free_cells(&free_cells,&free_cells_size) == 0)
+  if(compute_free_cells(&free_cells,&free_cells_size,robot_pos) == 0)
     {
-      int* random_cells_ids = LoadRandomSequence(amount, 0, free_cells_size-1);
-      if(random_cells_ids == NULL) return -1;
+      srand(time(NULL));
+      int* random_cells_ids = generate_random_sequence(0,free_cells_size-1,amount);   //LoadRandomSequence(amount, 0, free_cells_size-1);
       
+      if(random_cells_ids == NULL) return -1;
+
+      int kitten_id = GetRandomValue(0,amount-1);
       for(int i = 0;i<amount;++i)
 	{
 	  int index = random_cells_ids[i];
 	  if(index < 0) index*=-1;
 	  int x = free_cells[index].x;
 	  int y = free_cells[index].y;
-	  printf("%d %d\n",x,y);
+	 
 	  int rnd_ch_pos = GetRandomValue(0,CHARS_LEN-1);
 	  map[y][x] = (int)_CHARS[rnd_ch_pos];
+	  
+	  if(kitten_id == i)
+	    {
+	      kitten_pos.x = x;
+	      kitten_pos.y = y;
+	      printf("kitten pos is: %d %d\n",x,y);
+	    }
 	}
-
+      
       free(free_cells);
-      UnloadRandomSequence(random_cells_ids);
+      free(random_cells_ids);
+      //UnloadRandomSequence(random_cells_ids);
       return 0;
     }
   free(free_cells);
@@ -108,10 +121,48 @@ short is_free(int x, int y)
 {
   //check boundaries
   if(x < 0  || y < 0) return 0;
-  if(x > 5  || y > 5) return 0;
+  if(x == 6  || y == 6) return 0;
 
   if(map[y][x] == 0) return 1;
-  else if(map[y][x] < 0) return 0;
+  else if(map[y][x] == -1) return 0;
   else if(map[y][x] > 0) return map[y][x];
   return 0;
+}
+void make_cell_dead(int x, int y)
+{
+  map[y][x] = 0;
+}
+void draw_map()
+{
+  for(int y = 0; y<CELL_MAX;++y)
+    for(int x = 0;x<CELL_MAX;++x)
+      {
+	int x_pos = COMP_X_POS(x);
+	int y_pos = COMP_Y_POS(y);
+
+	if(map[y][x] != -1)
+	  DrawRectangle(x_pos,y_pos,CELL_SIZE,CELL_SIZE,RAYWHITE);
+	else
+	  DrawRectangle(x_pos,y_pos,CELL_SIZE,CELL_SIZE,BLACK);
+      }
+
+  draw_objects();
+}
+void cut_map()
+{
+  for(int y = 0;y<CELL_MAX;++y)
+    {
+      map[y][left_border] = -1;
+      map[y][right_border-1] = -1;
+    }
+  ++left_border;
+  --right_border;
+}
+short is_kitten(int x, int y)
+{
+  return (x == kitten_pos.x && y == kitten_pos.y)? 1: 0;
+}
+short is_dead_cell(int x, int y)
+{
+  return map[y][x] == -1?1:0;
 }
