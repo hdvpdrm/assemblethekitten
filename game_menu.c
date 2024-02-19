@@ -73,7 +73,6 @@ void draw_stat()
 
 void init_game()
 {
-  SetRandomSeed(time(NULL));
   init_map();
   generate_random_objects(turns_till_map_cut+1,get_robot_pos());
   init_robot();
