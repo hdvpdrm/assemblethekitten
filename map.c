@@ -130,9 +130,12 @@ short is_free(int x, int y)
 }
 short is_free_to_move(int x,int y)
 {
-  if(map[y][x] >= 0) return 1;
+  if(x-1 < 0) return 1;
+  if(x+1>= 6) return -1;
 
-  return 0;
+  if(map[y][x-1] == -1) return 1;
+  else return -1;
+  
 }
 void make_cell_dead(int x, int y)
 {

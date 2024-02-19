@@ -80,13 +80,6 @@ Vector* get_robot_pos()
 }
 
 void move_from_dead_cell()
-{
-  if(is_free_to_move(robot_pos.x-1,robot_pos.y) == 1)
-    {
-      robot_pos.x-=1;
-    }
-  else if(is_free_to_move(robot_pos.y+1,robot_pos.y) == 1)
-    {
-      robot_pos.x+=1;
-    }
+{ 
+  robot_pos.x+=is_free_to_move(robot_pos.x,robot_pos.y); 
 }
