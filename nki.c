@@ -3,6 +3,8 @@
 char** read_nki_file()
 {
   FILE* fp = fopen(".nki","r");
+
+  //not a leak, we handle it later
   if(fp == NULL)
     {
       return NULL;
