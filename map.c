@@ -131,6 +131,12 @@ short is_free(int x, int y)
   else if(map[y][x] > 0) return map[y][x];
   return 0;
 }
+short is_free_to_move(int x,int y)
+{
+  if(map[y][x] >= 0) return 1;
+
+  return 0;
+}
 void make_cell_dead(int x, int y)
 {
   map[y][x] = 0;
