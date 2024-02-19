@@ -8,6 +8,9 @@ void init_map()
       {
 	map[y][x] = 0;
       }
+
+  left_border = 0;
+  right_border = 6;
 }
 int compute_free_space()
 {
@@ -150,6 +153,7 @@ void draw_map()
 }
 void cut_map()
 {
+  printf("fucked --- %d %d   ---\n",left_border,right_border);
   for(int y = 0;y<CELL_MAX;++y)
     {
       map[y][left_border] = -1;
