@@ -74,7 +74,8 @@ void draw_stat()
 void init_game()
 {
   init_map();
-  generate_random_objects(turns_till_map_cut+1,get_robot_pos());
+  generate_random_objects(monsters_to_generate,get_robot_pos());
+  ++monsters_to_generate;
   init_robot();
   vector_init(&next_pos);
 }
