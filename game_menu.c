@@ -113,6 +113,7 @@ void null_state()
   generate_random_objects(turns_till_map_cut+1,get_robot_pos());
   init_robot();
   vector_init(&next_pos);
+  monsters_to_generate = 3;
 }
 int process_option_choosing()
 {
@@ -139,7 +140,8 @@ void process_object_interaction()
       if(id == 3)--id;
       elements[id] = 1;
 
-      generate_random_objects(turns_till_map_cut+1,get_robot_pos());
+      generate_random_objects(monsters_to_generate,get_robot_pos());
+      ++monsters_to_generate;
     }
  else if(no_kitten)
     {
@@ -197,7 +199,8 @@ void process_game(int* state)
 		
 	      ++prev_ttmp_state;
 	      turns_till_map_cut = prev_ttmp_state;
-	      generate_random_objects(turns_till_map_cut+1,get_robot_pos());
+	      generate_random_objects(monsters_to_generate,get_robot_pos());
+	      ++monsters_to_generate;
 	    }
     }
 }

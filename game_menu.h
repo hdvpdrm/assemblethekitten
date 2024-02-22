@@ -20,6 +20,7 @@ static int turns_till_map_cut = 2;
 
 static short choose = 0;
 static short option_to_choose = 0; //0 - kitten, 1 - no kitten
+static short monsters_to_generate = 3;
 
 static int compute_kitten();
 
